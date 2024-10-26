@@ -38,6 +38,8 @@ contract Creator is ERC721URIStorage, Ownable {
 
     function processAccount(uint256 tokenId, string memory tokenURI) public {
         if (checkExist(tokenId)) {
+            require(_ownerOf(tokenId) == msg.sender, "Already minted by another address!");
+
             _burn(tokenId);
             emit Burned(msg.sender, tokenId);
         }
@@ -48,5 +50,4 @@ contract Creator is ERC721URIStorage, Ownable {
         _safeMint(msg.sender, tokenId);
         _setTokenURI(tokenId, tokenURI);
     }
-
 }
